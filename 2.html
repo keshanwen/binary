@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>图片本地预览示例</title>
+</head>
+
+<body>
+  <h3>阿宝哥：图片本地预览示例</h3>
+  <input type="file" accept="image/*" onchange="loadFile(event)" />
+  <img id="previewContainer" />
+
+  <script>
+    // https://www.jianshu.com/p/5aa51b508729    https://mp.weixin.qq.com/s/DoipkAca00MuXon8wRYPgQ
+    const loadFile = function (event) {
+      const reader = new FileReader();
+      reader.onload = function () { // 处理 load 事件。该事件在读取操作完成时触发。
+        const output = document.querySelector("#previewContainer");
+        output.src = reader.result; // FileReader.result（只读）：文件的内容。该属性仅在读取操作完成后才有效，数据的格式取决于使用哪个方法来启动读取操作。
+      };
+      reader.readAsDataURL(event.target.files[0]); // 开始读取指定的 Blob 中的内容。一旦完成，result 属性中将包含一个 data: URL 格式的字符串以表示所读取文件的内容。(base64编码)
+      // reader.readAsArrayBuffer(event.target.files[0])
+      // reader.readAsText(event.target.files[0])
+
+      console.log(event.target.files)
+    };
+
+    /*
+
+      Data Url
+
+      data:[<mediatype>][;base64],<data>
+      前缀（data:）、指示数据类型的 MIME 类型、如果非文本则为可选的 base64 标记、数据本身：
+
+    */
+
+  </script>
+</body>
+
+</html>

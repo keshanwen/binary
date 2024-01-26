@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+
+/* let buffer = new ArrayBuffer(8)
+let view = new Int32Array(buffer)
+
+console.log(buffer)
+console.log(view)
+ */
+
+
+/*
+
+Uint8Array
+Uint8Array 数组类型表示一个 8 位无符号整型数组，创建时内容被初始化为 0。创建完后，可以以「对象的方式或使用数组下标索引的方式」引用数组中的元素。
+
+new Uint8Array()
+new Uint8Array(length); // 创建初始化为0的，包含length个元素的无符号整型数组
+new Uint8Array(typedArray);
+new Uint8Array(object);
+new Uint8Array(buffer [, byteOffset [, length]]);
+*/
+
+/*
+
+// new Uint8Array(length);
+var uint8 = new Uint8Array(2);
+uint8[0] = 42;
+console.log(uint8[0]); // 42
+console.log(uint8.length); // 2
+console.log(uint8.BYTES_PER_ELEMENT); // 1
+
+// new TypedArray(object);
+var arr = new Uint8Array([21,31]);
+console.log(arr[1]); // 31
+
+// new Uint8Array(typedArray);
+var x = new Uint8Array([21, 31]);
+var y = new Uint8Array(x);
+console.log(y[0]); // 21
+
+// new Uint8Array(buffer [, byteOffset [, length]]);
+var buffer = new ArrayBuffer(8);
+var z = new Uint8Array(buffer, 1, 4);
+
+*/
+
+/* let buffer = new ArrayBuffer(8)
+console.log(buffer)
+let z = new Uint8Array(buffer,1,4)
+console.log(z)
+ */
+
+ /*
+ ArrayBuffer 基本上就像原始内存一样。它模拟了使用 c 之类的语言进行的直接内存访问。（你可能想知道为什么我们不让程序直接访问内存，而是添加了这种抽象层，因为直接访问内存将导致一些安全漏洞）
+ */
+
+ /*
+ ArrayBuffer
+  象用于表示通用的，固定长度的原始二进制数据缓冲区。你不能直接操纵 ArrayBuffer 的内容，而是需要创建一个类型化数组对象或 DataView 对象，该对象以特定格式表示缓冲区，并使用该对象读取和写入缓冲区的内容。
+
+
+Blob
+  类型的对象表示不可变的类似文件对象的原始数据。Blob 表示的不一定是 JavaScript 原生格式的数据。File 接口基于 Blob，继承了Blob 功能并将其扩展为支持用户系统上的文件。
+ */
+// Blob 转为 ArrayBuffer
+
+/*   var blob = new Blob(["\x01\x02\x03\x04"]),
+    fileReader = new FileReader(),
+    array;
+
+  fileReader.onload = function () {
+    array = this.result;
+    console.log("Array contains", array.byteLength, "bytes.");
+  };
+
+  fileReader.readAsArrayBuffer(blob) */;
+
+  // ArrayBuffer 转 Blob
+  // var array = new Uint8Array([0x01, 0x02, 0x03, 0x04]);
+  // var blob = new Blob([array])
+
+  // console.log(blob)
+
+
+
+  const buffer = new ArrayBuffer(16)
+
+
+  const view1 = new DataView(buffer)
+  const view2 = new DataView(buffer, 12,4)
+  view1.setInt8(12,42)
+
+
+  console.log(view2.getInt8(0))
+
+
+
+
+
+</script>

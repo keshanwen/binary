@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+
+</body>
+</html>
+<script>
+// https://www.pipipi.net/questions/13063.html
+/*
+  base64 是一种基于 64 个可打印字符来表示二进制数据的方法。
+
+  编码字符的情况下，由于 Base64 仅可对 ASCII 字符进行编码，也就是单字节字符（可以理解为英文和数字，还有一些简单符号）。若编码中文字符串，则需先转换为 ASCII 字符。
+  在Base64中的可打印字符包括 字母A-Z、a-z、数字0-9，这样共有62个字符，此外两个可打印符号在不同的系统中而不同。
+*/
+// 转换方式
+// 编码
+const base64 = window.btoa('abc') // YWJj
+// 解码
+const initString = window.atob(base64)
+
+// 但是 btoa、atob 仅支持对 ASCII 字符编码，也就是单字节字符，而我们平时的中文都是 3-4 字节的字符。因此可以先将中文字符转为 utf-8 的编码，将 utf-8 的编码当做字符，这样就可以对多个单字节字符进行编码
+
+/*
+  encodeURIComponent
+  decodeURIComponent
+
+  chrome 上输入网址 http://zh.wikipedia.org/wiki/春节，然后复制下来，你会发现变成了 https://zh.wikipedia.org/wiki/%E6%98%A5%E8%8A%82。
+
+  我们知道，"春"和"节"的 utf-8 编码分别是"E6 98 A5"和"E8 8A 82"，因此，"%E6%98%A5%E8%8A%82"就是按照顺序，在每个字节前加上 % 而得到的。
+
+  encodeURI 将非 ACSII 码的字符进行 utf-8 编码。encodeURLComponent 与它不同的地方在于，对整个 url 进行编码
+
+*/
+
+// 编码(多字节)
+const base642 = window.btoa(encodeURIComponent('你好世界'))
+// 解码（多字节）
+const initString2 = decodeURIComponent(window.atob(base642))
+
+/*
+  Blob (binary large object) 二进制大对象， 是一个可以存储二进制文件的容器 (注意！ Blob 对象只是二进制数据的容器， 本身并不能操作二进制。如要操作看 FileReader)
+
+
+  构建方式
+  const blob = new Blob(['something.......'])
+
+  转换的一个 Blob 对象。请注意这里的 preview 属性是可以拿出来做图片预览的。
+  Blob {
+    name: "图片示例：jartto.png",
+    preview: "blob:file:///f3823a2a-2908-44cb-81e2-c19d98abc5d1",
+    size: 47396,
+    type: "image/png",
+  }
+
+*/
+
+// 在日常开发中, 最常见的便是将blob和base64之间相互转换.
+
+// bolb to base64
+function blobToBase64(blob) {
+  const fileReader = new FileReader()
+  let base64 = ''
+  fileReader.onload = () => {
+    base64 = fileReader.result // 读取 base64
+  }
+  fileReader.readAsDataURL(blob) // 读取 blob
+}
+
+// base64 to Blob
+function dataURLtoBlob(dataURL) {
+  let mineString = dataURL.split(',')[0].split(':')[1].split(';')[0] // mine 类型
+  let byteString = window.atob(dataURL.split(',')[1]) // base64 解码
+  let arrayBuffer = new ArrayBuffer(byteString.length) // 创建 ArrayBuffer
+  let intArray = new Uint8Array(arrayBuffer) // 创建视图
+  for (let i = 0; i < byteString.length; i++) {
+    intArray[i] = byteString.charCodeAt(i)
+  }
+  return new Blob([intArray], {
+    type: mineString
+  }) // 转成 blob
+}
+
+// URL 转 base64。 思路很简单，根据图片对象的数据去画 canvas，再利用它来等价表示图片流。
+
+ function getDataUri(url) {
+    return new Promise((resolve, reject) => {
+      /* eslint-disable */
+      let image = new Image();
+      image.onload = function () {
+        let canvas = document.createElement('canvas');
+        canvas.width = this.naturalWidth;
+        canvas.height = this.naturalHeight;
+        canvas.getContext('2d').drawImage(this, 0, 0);
+        // Data URI
+        resolve(canvas.toDataURL('image/png'));
+      };
+      image.src = url;
+      // console.log(image.src);
+      image.onerror = () => {
+        reject(new Error('图片流异常'));
+      };
+    });
+  }
+
+  // let dataUri = await this.getDataUri(`image/test/jartto.png`);
+
+  /*
+
+    FileReader
+    它是用来读取文件的
+
+    读取的 File 对象可以是什么呢?
+    来自用户在一个 <input> 元素上选择文件后返回的 FileList 对象
+    来自拖放操作生成的 DataTransfer 对象
+    来自在一个 HTMLCanvasElement 上执行 mozGetAsFile() 方法后返回结果
+    ......
+
+  */
+
+
+
+
+
+
+</script>

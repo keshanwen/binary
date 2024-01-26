@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>获取远程图片预览示例</title>
+</head>
+
+<body>
+  <h3>阿宝哥：获取远程图片预览示例</h3>
+  <img id="previewContainer" style="width: 50%;" />
+
+  <script>
+    // https://mp.weixin.qq.com/s/DoipkAca00MuXon8wRYPgQ
+    const image = document.querySelector("#previewContainer");
+    fetch("https://avatars1.githubusercontent.com/u/11811888?s=400&u=2d330564df93a5291ea8f261c588670ae01f20de&v=4")
+      .then((response) => response.blob())
+      .then((blob) => {
+        const objectURL = URL.createObjectURL(blob);
+        image.src = objectURL;
+      });
+
+      /*
+        Object URL
+        Object URL 是一种伪协议，也被称为 Blob URL。
+        它允许 Blob 或 File 对象用作图像，下载二进制数据链接等的 URL 源。 在浏览器中，我们使用 URL.createObjectURL 方法来创建 Blob URL，该方法接收一个 Blob 对象，并为其创建一个唯一的 URL，其形式为 blob:<origin>/<uuid>，
+        blob:https://example.org/40a5fb5a-d56d-4a33-b4e2-0acf6a8e5f641
+
+        浏览器内部为每个通过 URL.createObjectURL 生成的 URL 存储了一个 「URL → Blob」 映射。
+
+
+        URL.revokeObjectURL(url) 方法，从内部映射中删除引用，从而允许删除 Blob（如果没有其他引用），并释放内存。
+      */
+  </script>
+</body>
+
+</html>

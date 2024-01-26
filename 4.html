@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blob API</title>
+</head>
+<body>
+  <h3>阿宝哥：获取远程图片预览示例</h3>
+  <img id="previewContainer" style="width: 50%;" />
+
+</body>
+</html>
+<script>
+  // https://mp.weixin.qq.com/s/DoipkAca00MuXon8wRYPgQ
+/*
+
+  Blob （Binary Large Object）
+  表示二进制类型的大对象。在数据库管理系统中，将二进制数据存储为一个单一个体的集合。Blob 通常是影像、声音或多媒体文件。「在 JavaScript 中 Blob 类型的对象表示不可变的类似文件对象的原始数据。」
+
+  Blob 由一个可选的字符串 type（通常是 MIME 类型）和 blobParts 组成：
+
+  var aBlob = new Blob(blobParts, options);
+
+  blobParts：它是一个由 ArrayBuffer，ArrayBufferView，Blob，DOMString 等对象构成的数组。DOMStrings 会被编码为 UTF-8。
+  options：一个可选的对象，包含以下两个属性：
+   type —— 默认值为 ""，它代表了将会被放入到 blob 中的数组内容的 MIME 类型。
+   endings —— 默认值为 "transparent"，用于指定包含行结束符 \n 的字符串如 何被写入。它是以下两个值中的一个："native"，代表行结束符会被更改为适合宿主操作系统文件系统的换行符，或者 "transparent"，代表会保持 blob 中保存的结束符不变。
+*/
+
+  let myBlobParts = ['<html><h2>Hello Semlinker</h2></html>']; // an array consisting of a single DOMString
+  let myBlob = new Blob(myBlobParts, { type: 'text/html', endings: "transparent" }); // the blob
+
+  console.log(myBlob.size + " bytes size");
+  // Output: 37 bytes size
+  console.log(myBlob.type + " is the type");
+  // Output: text/html is the type
+  console.log(myBlob)
+
+
+
+/* let hello = new Uint8Array([72, 101, 108, 108, 111]); // 二进制格式的 "hello"
+let blob = new Blob([hello, ' ', 'semlinker'], { type: 'text/plain' });
+ */
+
+
+   const image = document.querySelector("#previewContainer");
+   fetch("https://avatars3.githubusercontent.com/u/4220799")
+     .then((response) => response.arrayBuffer())
+     .then((buffer) => {
+        const blob = new Blob([buffer]);
+        const objectURL = URL.createObjectURL(blob);
+        image.src = objectURL;
+   })
+
+
+
+
+</script>
